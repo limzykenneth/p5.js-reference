@@ -1,4 +1,4 @@
-referenceData = {
+{
     "project": {},
     "files": {
         "src/color/color_conversion.js": {
@@ -20034,4 +20034,4 @@ referenceData = {
             "line": " lib/addons/p5.sound.js:8555"
         }
     ]
-};
+}

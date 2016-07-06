@@ -1,0 +1,25 @@
+{
+  "name": "p5.js-reference",
+  "version": "0.0.1",
+  "description": "Offline reference for p5.js",
+  "main": "ref/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/limzykenneth/p5.js-reference.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/limzykenneth/p5.js-reference/issues"
+  },
+  "homepage": "https://github.com/limzykenneth/p5.js-reference#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-insert": "^0.5.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-requirejs": "^0.1.3"
+  }
+}

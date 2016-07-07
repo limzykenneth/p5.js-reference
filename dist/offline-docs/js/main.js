@@ -17,24 +17,4 @@ $('#family form').focusout(function() {
 function closeSearch() {
   $('#search_field').css('width', '0em');
   $('#search_field').css('visibility', 'hidden');
-  console.log($('#search_field').attr('width'));
 }
-
-
-// $('.info').css('display', 'none');
-
-// var currentId;
-// var tag;
-
-// $('.start-element').click(function() {
-
-//   var currentId = $(this).attr('id').toString();
-//   tag = '.info#' + currentId;
-
-//   if ($(tag).css('display') =='block') {
-//     $(tag).css('display', 'none');
-//   }
-//   else {
-//     $(tag).css('display', 'block');
-//   }
-// });

@@ -30,8 +30,8 @@ function renderCode(sel) {
       sketchContainer.appendChild(pre);
       sketchContainer.className = 'example_container'
       sketch.className = 'language-javascript';
-      if (!rc) {    
-        pre.className += ' norender';    
+      if (!rc) {
+        pre.className += ' norender';
       }
     }
 
@@ -155,16 +155,16 @@ function renderCode(sel) {
           }
         }
         else {
-   
+
           with (p) {
             eval(runnable);
           }
 
-          var fxns = ['setup', 'draw', 'preload', 'mousePressed', 'mouseReleased', 
-          'mouseMoved', 'mouseDragged', 'mouseClicked', 'mouseWheel', 
-          'touchStarted', 'touchMoved', 'touchEnded', 
+          var fxns = ['setup', 'draw', 'preload', 'mousePressed', 'mouseReleased',
+          'mouseMoved', 'mouseDragged', 'mouseClicked', 'mouseWheel',
+          'touchStarted', 'touchMoved', 'touchEnded',
           'keyPressed', 'keyReleased', 'keyTyped'];
-          fxns.forEach(function(f) { 
+          fxns.forEach(function(f) {
             var ind = runnable.indexOf(f+'(');
             // this is a gross hack within a hacky script that
             // ensures the function names found are not substrings
@@ -194,16 +194,21 @@ function renderCode(sel) {
       registerHashChange();
 
       setTimeout(function() {
-        var myp5 = new _p5(s, cnv);      
+        var myp5 = new _p5(s, cnv);
         $( ".example-content" ).find('div').each(function() {
           $this = $( this );
           var pre = $this.find('pre')[0];
           if (pre) {
             $this.height( Math.max($(pre).height()*1.1, 100) + 20 );
+
+            var canvases = $this.find('canvas')[0];
+            if (canvases) {
+              $this.height( $this.height() + 120 );
+            }
           }
         });
         instances[i] = myp5;
-      }, 100); 
+      }, 100);
     });
 
   }

@@ -1,5 +1,4 @@
-(function () {
-// https://github.com/umdjs/umd/blob/master/templates/returnExports.js
+(function () {// https://github.com/umdjs/umd/blob/master/templates/returnExports.js
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     define('documented-method',[], factory);
@@ -71,7 +70,7 @@
   java, location, Components, FileUtils */
 
 define('text',['module'], function (module) {
-    
+    'use strict';
 
     var text, fs, Cc, Ci, xpcIsWindows,
         progIds = ['Msxml2.XMLHTTP', 'Microsoft.XMLHTTP', 'Msxml2.XMLHTTP.4.0'],
@@ -447,7 +446,9 @@ define('text',['module'], function (module) {
     return text;
 });
 
+
 define('text!tpl/search.html',[],function () { return '<input type="text" class="<%=className%>" value="" placeholder="<%=placeholder%>">';});
+
 
 define('text!tpl/search_suggestion.html',[],function () { return '<p id="index-<%=idx%>" class="search-suggestion">\n\n  <strong><%=name%></strong>\n\n  <span class="small">\n    <% if (final) { %>\n    constant\n    <% } else if (itemtype) { %>\n    <%=itemtype%> \n    <% } %>\n\n    <% if (className) { %>\n    in <strong><%=className%></strong>\n    <% } %>\n\n    <% if (is_constructor) { %>\n    <strong><span class="glyphicon glyphicon-star"></span> constructor</strong>\n    <% } %>\n  </span>\n\n</p>';});
 
@@ -2300,6 +2301,7 @@ define('searchView',[
 
 });
 
+
 define('text!tpl/list.html',[],function () { return '<% _.each(groups, function(group){ %>\n  <h4 class="group-name" id="group-<%=group.name%>"><%=group.name%></h4>\n  <div class="reference-group clearfix main-ref-page">  \n  <% _.each(group.subgroups, function(subgroup, ind) { %>\n    <dl>\n    <% if (subgroup.name !== \'0\') { %>\n        <dt class="subgroup-<%=subgroup.name%>"><%=subgroup.name%></dt>\n    <% } %>\n    <% _.each(subgroup.items, function(item) { %>\n    <dd><a href="<%=item.hash%>" title="<%- striptags(item.description) %>"><%=item.name%><% if (item.itemtype === \'method\') { %>()<%}%></a></dd>\n    <% }); %>\n    </dl>\n  <% }); %>\n  </div>\n<% }); %>\n';});
 
 define('listView',[
@@ -2430,9 +2432,12 @@ define('listView',[
 
 });
 
+
 define('text!tpl/item.html',[],function () { return '<h3><%=item.name%><% if (item.isMethod) { %>()<% } %></h3>\n\n<% if (item.example) { %>\n<div class="example">\n  <h4>Example</h4>\n\n\t<div class="example-content">\n    <%= item.example %>\n  </div>\n</div> \n<% } %>\n\n\n<div class="description">\n  <h4>Description</h4>\n  <p><%= item.description %></p>\n\n  <% if (item.module === \'p5.dom\') { %>\n    <p>This function requires you include the p5.dom library.  Add the following into the head of your index.html file:\n      <pre><code class="language-javascript">&lt;script language="javascript" type="text/javascript" src="path/to/p5.dom.js"&gt;&lt;/script&gt;</code></pre>\n    </p>\n  <% } %>\n  <% if (item.module === \'p5.sound\') { %>\n    <p>This function requires you include the p5.sound library.  Add the following into the head of your index.html file:\n      <pre><code class="language-javascript">&lt;script language="javascript" type="text/javascript" src="path/to/p5.sound.js"&gt;&lt;/script&gt;</code></pre>\n    </p>\n  <% } %>\n</div>\n\n\n<div>\n  <h4>Syntax</h4>\n  <p>\n    <% syntaxes.forEach(function(syntax) { %>\n    <pre><code class="language-javascript"><%= syntax %></code></pre>\n    <% }) %>\n  </p>\n</div>\n\n\n<% if (item.return) { %>\n<span class="returns-inline">\n  <span class="type"></span>\n</span>\n<% } %>\n\n<% if (item.deprecated) { %>\n<span class="flag deprecated"<% if (item.deprecationMessage) { %> title="<%=item.deprecationMessage%>"<% } %>>deprecated</span>\n<% } %>\n\n<% if (item.access) { %>\n<span class="flag <%=item.access%>"><%= item.access %></span>\n<% } %>\n\n<% if (item.final) { %>\n<span class="flag final">final</span>\n<% } %>\n\n<% if (item.static) { %>\n<span class="flag static">static</span>\n<% } %>\n\n<% if (item.chainable) { %>\n<span class="label label-success chainable">chainable</span>\n<% } %>\n\n<% if (item.async) { %>\n<span class="flag async">async</span>\n<% } %>\n\n<!--  <div class="meta">\n    {{#if overwritten_from}}\n    <p>Inherited from\n      <a href="#">\n        {{overwritten_from/class}}\n      </a>\n      {{#if foundAt}}\n      but overwritten in\n      {{/if}}\n      {{else}}\n      {{#if extended_from}}\n    <p>Inherited from\n      <a href="#">{{extended_from}}</a>:\n      {{else}}\n      {{#providedBy}}\n    <p>Provided by the <a href="../modules/{{.}}.html">{{.}}</a> module.</p>\n    {{/providedBy}}\n    <p>\n      {{#if foundAt}}\n      Defined in\n      {{/if}}\n      {{/if}}\n      {{/if}}\n      {{#if foundAt}}\n      <a href="{{foundAt}}">`{{{file}}}:{{{line}}}`</a>\n      {{/if}}\n    </p>\n\n    {{#if deprecationMessage}}\n    <p>Deprecated: {{deprecationMessage}}</p>\n    {{/if}}\n\n    {{#if since}}\n    <p>Available since {{since}}</p>\n    {{/if}}\n  </div>-->\n\n<% if (item.params) { %>\n<div class="params">\n  <h4>Parameters</h4>\n  <table>\n  <% for (var i=0; i<item.params.length; i++) { %>\n    <tr>\n    <td>\n    <% var p = item.params[i] %>\n    <% if (p.optional) { %>\n      <code class="language-javascript">[<%=p.name%>]</code>\n    <% } else { %>\n      <code class="language-javascript"><%=p.name%></code>\n    <% } %> \n    <%if (p.optdefault) { %>=<%=p.optdefault%><% } %>\n    </td>\n    <td>\n    <% if (p.type) { %>\n      <span class="param-type label label-info"><%=p.type%></span>: <%=p.description%></span> \n    <% } %>\n    <% if (p.multiple) {%>\n      <span class="flag multiple" title="This argument may occur one or more times.">multiple</span>\n    <% } %>\n    </td>\n    </tr>\n  <% } %>\n  </table>\n</div>\n<% } %>\n\n<% if (item.return) { %>\n<div>\n  <h4>Returns</h4>\n    <% if (item.return.type) { %>\n      <p><span class="param-type label label-info"><%=item.return.type%></span>: <%= item.return.description %></p>\n    <% } %>\n</div>\n<% } %>\n\n';});
 
+
 define('text!tpl/class.html',[],function () { return '\n<% if (is_constructor) { %>\n<div class="constructor">\n  <!--<h2>Constructor</h2>--> \n  <%=constructor%>\n</div>\n<% } %>\n\n<% var fields = _.filter(things, function(item) { return item.itemtype === \'property\' }); %>\n<% if (fields.length > 0) { %>\n  <h4>Fields</h4>\n  <p>\n    <% _.each(fields, function(item) { %>\n      <a href="<%=item.hash%>" <% if (item.module !== module) { %>class="addon"<% } %> ><%=item.name%></a>: <%= item.description %>\n      <br>\n    <% }); %>\n  </p>\n<% } %>\n\n<% var methods = _.filter(things, function(item) { return item.itemtype === \'method\' }); %>\n<% if (methods.length > 0) { %>\n  <h4>Methods</h4>\n  <p>\n    <table>\n    <% _.each(methods, function(item) { %>\n      <tr>\n      <td><a href="<%=item.hash%>" <% if (item.module !== module) { %>class="addon"<% } %>><%=item.name%><% if (item.itemtype === \'method\') { %>()<%}%></a></td><td><%= item.description %></td>\n      </tr>\n    <% }); %>\n    </table>\n  </p>\n<% } %>';});
+
 
 define('text!tpl/itemEnd.html',[],function () { return '<p>\n\n  <div class="meta">\n    <% if (item.class) { %>\n    <p>Class: \n    <strong><a href=\'#/<%=item.class%>\'><%=item.class%></a></strong></p>\n    <% } %>\n\n  </div>\n\n\n  <p class="ref-notice"> If you see any errors or have suggestions, <a href="https://github.com/processing/p5.js/issues">please let us know</a>.<p>\n\n  <a style="border-bottom:none !important;" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank><img src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" style="width:88px"/></a>\n\n  <% if (item.file && item.line) { %>\n  <p style="font-size: 0.75em">Find any typos or bugs? <code><%=item.name%><% if (item.isMethod) { %>()<% } %></code> is documented and defined in <a href="https://github.com/processing/p5.js/blob/master/<%= item.file %>#L<%= item.line %>" target="_blank" ><code><%= item.file %></code></a>. Please feel free to <a href="https://github.com/processing/p5.js/edit/master/<%= item.file %>#L<%= item.line %>" target="_blank" style="font-family: inherit">edit the file</a> and issue a pull request!</p>\n  <% } %>\n\n</p>\n';});
 
@@ -4104,7 +4109,7 @@ define('itemView',[
   'prettify'
 ], function (App, itemTpl, classTpl, endTpl) {
 
-  
+  'use strict';
 
   var itemView = Backbone.View.extend({
     el: '#item',
@@ -4268,6 +4273,7 @@ define('itemView',[
 
 });
 
+
 define('text!tpl/menu.html',[],function () { return '<p>\n  <small>\n    Can\'t find what you\'re looking for? You may want to check out\n    <a href="#/libraries/p5.dom">p5.dom</a> or\n    <a href="#/libraries/p5.sound">p5.sound</a>.\n  </small>\n</p>\n\n<% var i=0; %>\n<% var max=Math.floor(groups.length/4); %>\n<% var rem=groups.length%4; %>\n\n<% _.each(groups, function(group){ %>\n  <% var m = rem > 0 ? 1 : 0 %>\n  <% if (i === 0) { %>\n    <dl>\n  <% } %>\n  <dd><a href="#group-<%=group%>"><%=group%></a></dd>\n  <% if (i === (max+m-1)) { %>\n    </dl>\n  \t<% rem-- %>\n  \t<% i=0 %>\n  <% } else { %>\n  \t<% i++ %>\n  <% } %>\n<% }); %>';});
 
 define('menuView',[
@@ -4335,6 +4341,7 @@ define('menuView',[
   return menuView;
 
 });
+
 
 define('text!tpl/library.html',[],function () { return '<h3><%= module.name %> library</h3>\n\n<p><%= module.description %></p>\n\n<div id="library-page" class="reference-group clearfix">  \n\n<% var t = 0; col = 0; %>\n\n<% _.each(groups, function(group){ %>\n  <% if (t == 0) { %> \n    <div class="column_<%=col%>">\n  <% } %>\n  <% if (group.name !== module.name && group.name !== \'p5\') { %>\n    <a href="<%=group.hash%>" <% if (group.module !== module.name) { %>class="core"<% } %>><h4 class="group-name <% if (t == 0) { %> first<%}%>"><%=group.name%></h4></a>\n  <% } %>\n  <% _.each(group.items, function(item) { %>\n    <a href="<%=item.hash%>" <% if (item.module !== module.name) { %>class="core"<% } %>><%=item.name%><% if (item.itemtype === \'method\') { %>()<%}%></a><br>\n    <% t++; %>\n  <% }); %>\n  <% if (t >= Math.floor(totalItems/4)) { col++; t = 0; %>\n    </div>\n  <% } %>\n<% }); %>\n</div>';});
 
@@ -4533,7 +4540,7 @@ define('router',[
   'App'
 ], function(App) {
 
-   //
+  'use strict'; //
 
   var Router = Backbone.Router.extend({
 
@@ -4746,78 +4753,81 @@ require([
   App.collections = ['allItems', 'classes', 'events', 'methods', 'properties', 'p5.sound', 'p5.dom'];
 
   // Get json API data
-  var data = referenceData;
-  App.data = data;
-  App.classes = [];
-  App.methods = [];
-  App.properties = [];
-  App.events = [];
-  App.allItems = [];
-  App.sound = { items: [] };
-  App.dom = { items: [] };
-  App.modules = [];
-  App.project = data.project;
+  $.getJSON('data.min.json', function(data) {
+    App.data = data;
+    App.classes = [];
+    App.methods = [];
+    App.properties = [];
+    App.events = [];
+    App.allItems = [];
+    App.sound = { items: [] };
+    App.dom = { items: [] };
+    App.modules = [];
+    App.project = data.project;
 
 
-  var modules = data.modules;
+    var modules = data.modules;
 
-  // Get class items (methods, properties, events)
-  _.each(modules, function(m, idx, array) {
-    App.modules.push(m);
-    if (m.name == "p5.sound") {
-      App.sound.module = m;
-    }
-    else if (m.name == "p5.dom") {
-      App.dom.module = m;
-    }
-  });
-
-
-  var items = data.classitems;
-  var classes = data.classes;
-
-  // Get classes
-  _.each(classes, function(c, idx, array) {
-    if (c.is_constructor) {
-      App.classes.push(c);
-    }
-  });
-
-
-  // Get class items (methods, properties, events)
-  _.each(items, function(el, idx, array) {
-    if (el.itemtype) {
-      if (el.itemtype === "method") {
-        el = new DocumentedMethod(el);
-        App.methods.push(el);
-        App.allItems.push(el);
-      } else if (el.itemtype === "property") {
-        App.properties.push(el);
-        App.allItems.push(el);
-      } else if (el.itemtype === "event") {
-        App.events.push(el);
-        App.allItems.push(el);
+    // Get class items (methods, properties, events)
+    _.each(modules, function(m, idx, array) {
+      App.modules.push(m);
+      if (m.name == "p5.sound") {
+        App.sound.module = m;
       }
-
-      // libraries
-      if (el.module === "p5.sound") {
-        App.sound.items.push(el);
+      else if (m.name == "p5.dom") {
+        App.dom.module = m;
       }
-      else if (el.module === "p5.dom" || el.module === 'DOM') {
-        if (el.class === 'p5.dom') {
-          el.class = 'p5';
+    });
+
+
+    var items = data.classitems;
+    var classes = data.classes;
+
+    // Get classes
+    _.each(classes, function(c, idx, array) {
+      if (c.is_constructor) {
+        App.classes.push(c);
+      }
+    });
+
+
+    // Get class items (methods, properties, events)
+    _.each(items, function(el, idx, array) {
+      if (el.itemtype) {
+        if (el.itemtype === "method") {
+          el = new DocumentedMethod(el);
+          App.methods.push(el);
+          App.allItems.push(el);
+        } else if (el.itemtype === "property") {
+          App.properties.push(el);
+          App.allItems.push(el);
+        } else if (el.itemtype === "event") {
+          App.events.push(el);
+          App.allItems.push(el);
         }
-        App.dom.items.push(el);
+
+        // libraries
+        if (el.module === "p5.sound") {
+          App.sound.items.push(el);
+        }
+        else if (el.module === "p5.dom" || el.module === 'DOM') {
+          if (el.class === 'p5.dom') {
+            el.class = 'p5';
+          }
+          App.dom.items.push(el);
+        }
       }
-    }
-  });
+    });
 
-  _.each(App.classes, function(c, idx) {
-    c.items = _.filter(App.allItems, function(it){ return it.class === c.name; });
-  });
+    _.each(App.classes, function(c, idx) {
+      c.items = _.filter(App.allItems, function(it){ return it.class === c.name; });
+    });
 
-  require(['router']);
+    require(['router']);
+  });
 });
 
 define("main", function(){});
+
 }());
+//# sourceMappingURL=reference.js.map

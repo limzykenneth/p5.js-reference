@@ -1,3 +1,5 @@
+##Project is now maintained on [p5.js-website](https://github.com/processing/p5.js-website/tree/master/offline-reference) repository, please contribute there.
+
 p5.js-reference
 ========
 
